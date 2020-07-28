@@ -1,30 +1,20 @@
 import sys
-sys.stdin = open('input.txt','r')
-
-import sys
-from collections import deque
 input = sys.stdin.readline
-N,S = map(int, input().split())
+N, S = map(int, input().split())
 numbers = list(map(int, input().split()))
-numbers.append(0)
-queue = deque([])
-sum = 0
-m = float('inf')
-for number in numbers:
-    if sum == S and m > len(queue):
-        m = len(queue)
-    if sum > S:
-        left = queue.popleft()
-        sum -= left
+sum = numbers[0]
+m = sys.maxsize
+left, right = 0, 0
+while left <= right and right < N:
+    if sum >= S:
+        m = min(right-left,m)
+        sum -= numbers[left]
+        left += 1
     else:
-        queue.append(number)
-        sum += number
-
-if sum == S:
-    print(m)
-elif sum - queue[0] == S:
-    queue.popleft()
-    print(len(queue))
-else:
+        right += 1
+        if right < N:
+            sum += numbers[right]
+if m == sys.maxsize:
     print(0)
-print(queue)
+else:
+    print(m+1)
