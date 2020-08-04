@@ -1,39 +1,62 @@
 import sys
 sys.stdin = open('input.txt','r')
+def dynamic(n):
+    global dp
+    if n < 0: return 0
+    if n <= 1: return 1
+    if dp[n]: return dp[n]
+    dp[n] = dynamic(n-1) + dynamic(n-2) + dynamic(n - 3)
+    return dp[n]
 
 if __name__ == "__main__":
     t = int(input())
     dp = [0]*12
-    dp[2] = 1
-    dp[3] = 3
     for i in range(t):
-        n = int(input())
-        cnt = 0
-        for j in range(4,n):
-            dp[j] = dp[j - 1] * 2 + 1
-    print(dp)
+        print(dynamic(int(input())))
 
 
-1: 0
-2: 1
+'''
+0: 1
+1: 1
+2: 1    1, 2
 3: 3
 4: 7
-5:
-11111: 1
-2111: 4
-311: 3
-import sys
-sys.stdin = open('input1.txt','r')
-t = 10
-for i in range(t):
-    n = int(input())
-    #print(n)
-    boxes = list(map(int, input().split()))
-    #print(boxes)
-    sum_house = 0
-    for i in range(2, len(boxes) - 2):
-        if boxes[i] > max(boxes[i + 1], boxes[i + 2]) and boxes[i] > max(boxes[i - 1], boxes[i - 2]):
-            house = max(max(boxes[i + 1], boxes[i + 2]), max(boxes[i - 1], boxes[i - 2]))
-        else:
-        sum_house = house - boxes[i]
-    print('#{} {}'.format(i-1, sum_house))
+5: 15
+6: 
+7: 44
+8:
+9:
+10: 274
+
+1 1 1 1 1:1
+2 1 1 1:4 + 1
+3 1 1:3 + 1
+4 1:2 + 1
+
+5 1: + 1
+
+2 2 1:3// 2 2 1 1 6
+3 2: 2// 3 2 1 6
+
+3 3 : 1
+4 2 : 2
+
+2//
+1 1
+
+3//
+1 1 1
+1 2 : 2
+
+4//
+1 1 1 1
+1 1 2: 3
+2 2: 1
+1 3: 2
+
+
+
+
+
+
+'''
