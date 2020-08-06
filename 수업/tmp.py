@@ -1,12 +1,9 @@
-def sum(numbers):
-    total = 0
-    for num in numbers:
-        total += num
-    return total
-def max(*args):
-    M = args[0]
-    for number in args[1:]:
-        if M < number:
-            M = number
-    return M
-print(max(1, 2, 3))
+import sys
+sys.stdin = open('input.txt')
+for tc in range(1,11):
+    N = int(input())
+    arr = []
+    for i in range(1, 101):
+        arr.append(list(map(int, input().split())))
+print(arr)
+        #

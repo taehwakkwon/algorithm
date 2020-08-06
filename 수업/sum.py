@@ -46,8 +46,6 @@ print("time:", time.time() - start) #현재시각(코드 실행 후) - 시작시
 
 
 
-
-
 '''
 def find_max_c(board):
     M = 0
