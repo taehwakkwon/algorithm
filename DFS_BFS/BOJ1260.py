@@ -31,12 +31,3 @@ print(s)
 dfs(v)
 print()
 bfs(v)
-
-for tc in range(1, 11):
-    N = int(input())
-    arr = []
-    for i in range(1, 101):
-        a.append(list(map(int, input().split())))
-    print(arr)
-
-    arr[][]
