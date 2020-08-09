@@ -5,11 +5,10 @@ from collections import deque
 def bfs(v):
     queue = deque([v])
     time[v] = 0
-
     cnt = 0
     while queue:
         v = queue.popleft()
-        if 
+        if
 
 
 

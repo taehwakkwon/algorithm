@@ -1,24 +1,55 @@
 import sys
-sys.stdin = open('input.txt')
-
-def BubbleSort(a) :
-    for i in range(len(a)-1):
-        for j in range(len(a)-i-1):
-            if a[j] > a[j+1]:
-                a[j], a[j+1] = a[j+1], a[j]
-    return a #값 리턴
+sys.stdin = open("input.txt", "r")
 
 T = int(input())
-for tc in range(1,T+1):
-    N = int(input())
-    list_s = list(map(int, input().split()))
-    list_s = BubbleSort(list_s)
+for tc in range(1, T+1):
+    arr = []
+    for num in range(9):
+        numbers = list(map(int, input().split()))
+        arr.append(numbers)
+        result = 0
+        for i in range(len(numbers)):
+            for j in range(i+1,len(numbers)):
+                if numbers[i] == numbers[j]:
+                    result = 0
+                else:
+                    result = 1
 
-    zero_list = [0] * 10
-    list_front = list_s[0:len(list_s)//2]
-    list_back = list_s[len(list_s)//2:]
-    list_back_reverse = list_back[::-1]
-    for h in range(len(zero_list)//2):
-        zero_list[2*h] = list_back_reverse[h]
-        zero_list[2*h+1] = list_front[h]
-    print('#%d %s' %(tc, ' '.join(map(str,zero_list))))
+
+
+
+T = int(input())
+for tc in range(1, T+1):
+    S = list(map(int,input().split()))
+    A = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    S_li = []
+    for _ in range(S):
+        S_li.append(list(map(int, input().split())))
+
+    for i in range(len(S_li)):
+        m = []
+        for k in range(len(S_li[i])):
+            m.append(S_li[i][k])
+            if m.sort()!= A:
+                result = 0
+                break
+            else :
+                for j in range(len(S_li[0])):
+                    p = []
+                    for h in range(len(S_li)):
+                        p.append(S_li[j][h])
+                        if p.sort() != A:
+                            result = 0
+                            break
+                        else :
+                            for a in range(0, 9, 3):
+                                u = []
+                                for b in range(0, 9, 3):
+                                    u.append(S_li[a][b])
+                                    if u.sort() != A:
+                                        result =0
+                                        break
+                                    else:
+                                        result = 1
+
+    print(result)
