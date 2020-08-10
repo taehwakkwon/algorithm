@@ -6,15 +6,16 @@ def bfs(v):
     queue = deque([v])
     visit[v] = [v]
     while queue:
+        print(visit)
         v = queue.popleft()
+        if v == K:
+            print(len(visit[i]))
+            print(' '.join(map(str, visit[i])))
+            return
         for i in (v-1, v+1, v*2):
             if 0 <= i < 10**5+1 and visit[i] == 0:
                 queue.append(i)
                 visit[i] = visit[v] + [i]
-                if i == K:
-                    print(len(visit[i]))
-                    print(' '.join(map(str,visit[i])))
-                    return
 
 if __name__ == '__main__':
     N, K = map(int, input().split())
