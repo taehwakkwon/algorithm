@@ -1,5 +1,5 @@
-import sys
-sys.stdin = open('sample_input.txt')
+#import sys
+#sys.stdin = open('sample_input.txt')
 
 import sys
 def min_max(number_list):

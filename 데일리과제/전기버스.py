@@ -1,26 +1,31 @@
-import sys
-sys.stdin = open('sample_input.txt')
+#import sys
+#sys.stdin = open('sample_input.txt')
 
-def dfs(v, s, cnt):
-    global M
-    if v > len(bus_stops):
-        if M > cnt:
-            M = cnt
-        return
-    if s < 0:
-        return
-    else:
-        if v in bus_stops:
-            dfs(v + 1, k, cnt + 1)
-            dfs(v + 1, s - 1, cnt)
+def can_go(v):
+    global cnt, now
+    while v < len(bus_stops) -1:
+        if bus_stops[v] - now > k:
+            print('#%d %d' % (t, 0))
+            return
         else:
-            dfs(v + 1, s - 1, cnt + 1)
+            if bus_stops[v + 1] - now > k:
+                now = bus_stops[v]
+                cnt += 1
+                v += 1
+            else:
+                v += 1
+    print('#%d %d' % (t, cnt))
+    return
+
 
 if __name__ == "__main__":
-    t = int(input())
-    for i in range(t):
-        k, n, m = map(int, input().split())
-        bus_stops = list(map(int, input().split()))
-        M = n
-        dfs(0, k, 0)
-        print(M)
+    T = int(input())
+    for t in range(1,4):
+        k, n, m = map(int ,input().split())
+        bus_stops = list(map(int ,input().split()))
+        bus_stops.append(n)
+        print(bus_stops)
+        now,cnt = 0, 0
+        can_go(0)
+
+

@@ -1,7 +1,6 @@
-import sys
-sys.stdin = open('sample_input.txt')
+#import sys
+#sys.stdin = open('sample_input.txt')
 
-import sys
 
 
 if __name__ == "__main__":
