@@ -1,6 +1,7 @@
 import sys
 sys.stdin = open('sample_input.txt')
 
+import sys
 def build_data(buildings):
     cnt = 0
     for i in range(2, len(buildings) - 2):
@@ -18,6 +19,6 @@ def build_data(buildings):
 if __name__ == "__main__":
     t = 10
     for i in range(t):
-        n = int(input())
-        buildings = list(map(int ,input().split()))
+        n = int(sys.stdin.readline())
+        buildings = list(map(int ,sys.stdin.readline().split()))
         print('#%d %d ' %(i + 1, build_data(buildings)))

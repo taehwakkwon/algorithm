@@ -4,5 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Samsung" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/basic" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/과목평가대비" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/과목평가대비/python" vcs="Git" />
   </component>
 </project>

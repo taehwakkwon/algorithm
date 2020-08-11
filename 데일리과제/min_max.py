@@ -1,10 +1,9 @@
 #import sys
 #sys.stdin = open('sample_input.txt')
 
-import sys
 def min_max(number_list):
     M = 0
-    m = sys.maxsize
+    m = float('inf')
     for number in number_list:
         if M < number:
             M = number
@@ -20,4 +19,6 @@ if __name__ == "__main__":
         numbers = list(map(int, input().split()))
         M, m = min_max(numbers)
         print('#%d %d' %(i + 1, M - m))
+
+
 

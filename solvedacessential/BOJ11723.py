@@ -1,4 +1,9 @@
 import sys
+<<<<<<< HEAD
+=======
+sys.stdin = open("input.txt",'r')
+import sys
+>>>>>>> 33da9fd9c7f6f90040c922ff00c3fbb487d2d25d
 input = sys.stdin.readline
 def set(order, number = 0):
     global number_list
@@ -31,4 +36,8 @@ if __name__ == "__main__":
             set(inputs.rstrip(), 0)
         else:
             order, number = inputs.split()
+<<<<<<< HEAD
             set(order.rstrip(), int(number))
+=======
+            set(order.rstrip(), int(number))
+>>>>>>> 33da9fd9c7f6f90040c922ff00c3fbb487d2d25d

@@ -1,5 +1,19 @@
+<<<<<<< HEAD
 2
 2
 Annyung Hasae Yo! LoL!
 3
 my name is Hye Soo. my id is Rhs0266. what your id Bro?
+=======
+10
+5
+2
+3
+1
+4
+2
+3
+5
+1
+7
+>>>>>>> 33da9fd9c7f6f90040c922ff00c3fbb487d2d25d
