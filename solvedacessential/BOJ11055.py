@@ -5,10 +5,7 @@ numbers = list(map(int, input().split()))
 ch = [0]*n
 dp = numbers[:]
 for i in range(n):
-    M = 0
     for j in range(i-1,-1,-1):
-        if numbers[i] > numbers[j] and dp[i] > dp[j]:
-            M = numbers[j]
-        dp[i] += M
-        print(dp)
-print(dp)
+        if numbers[i] > numbers[j]:
+            dp[i] = max(dp[i], dp[j] + numbers[i])
+print(max(dp))
