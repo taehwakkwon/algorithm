@@ -19,3 +19,4 @@ for _ in range(t):
         else:
             print_numbers.rotate(-1)
             ch.rotate(-1)
+

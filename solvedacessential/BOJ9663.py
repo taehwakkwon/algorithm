@@ -12,23 +12,20 @@ def check(x,y):
                 return False
     return True
 
-def dfs(v,x,y,q):
-    global cnt, board
+def dfs(x,y,q):
+    global cnt
     if check(x,y) == False:
-        board[x][y] = 0
-        q -= 1
         return
-    if v >= n:
+    if q == n:
         cnt += 1
-        board = [[0] * n for _ in range(n)]
-        return
     else:
-        for i in range(n):
-            for j in range(n):
-                board[i][j] = 1
-                dfs(v+1,i,j, q + 1)
+        dfs(x)
+
 
 n = int(input())
+if n < 3:
+    print(0)
+    sys.exit()
 board = [[0]*n for _ in range(n)]
 cnt = 0
 dfs(0,0,0,0)

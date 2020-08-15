@@ -1,25 +1,2 @@
-<<<<<<< HEAD
-100 2
-40 99
-20 50
-=======
-<<<<<<< HEAD
-2
-2
-Annyung Hasae Yo! LoL!
-3
-my name is Hye Soo. my id is Rhs0266. what your id Bro?
-=======
-10
-5
-2
-3
-1
-4
-2
-3
-5
-1
-7
->>>>>>> 33da9fd9c7f6f90040c922ff00c3fbb487d2d25d
->>>>>>> fe171544ae22359b56637e88f4dc9a7c8dc17777
+4 0
+2 -2 2 -2
