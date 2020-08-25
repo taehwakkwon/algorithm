@@ -1,24 +1,31 @@
 import sys
 sys.stdin = open('input.txt')
 
-def solve(v, li,l):
-    global cnt
-    if v >= n:
-        res.append(li[:])
+import sys
+sys.setrecursionlimit(10**7)
+def solve(v, sum, li, dic):
+    if v >= len(li):
+        dic[sum] = dic.get(sum,0) + 1
     else:
-        solve(v + 1, li + [numbers[v]])
-        solve(v + 1, li)
+        solve(v + 1, sum + li[v], li, dic)
+        solve(v + 1, sum, li, dic)
 
 cnt = 0
-n, s = map(int, input().split())
+n, s = map(int, sys.stdin.readline().split())
 numbers = sorted(list(map(int, input().split())))
-for i in range(1, n + 1):
-    res = []
-    solve(0,[])
+left, middle, right = numbers[:n//3], numbers[n//3:2*n//3], numbers[2*n//3:]
+dic = {}
+solve(0,0,left,dic)
+l_dic = dic
+dic = {}
+solve(0,0,middle,dic)
+m_dic = dic
+dic = {}
+solve(0,0,right,dic)
 
-solve(0,[])
-print(res, len(res))
-if s:
-    print(cnt)
-else:
-    print(cnt - 1)
+for key in l_dic:
+    if s - key in dic:
+        cnt += (l_dic[key] * dic[s-key])
+if s == 0:
+    cnt -= 1
+print(cnt)
