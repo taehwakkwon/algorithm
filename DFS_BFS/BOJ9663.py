@@ -1,49 +1,42 @@
-from copy import deepcopy
-def check(i, j, y, x, d, v):
-    if d == 8:
-        dfs(v + 1)
+import sys
+sys.setrecursionlimit(10**7)
+def check(s):
+    global res
+    for i in range(len(s)-1):
+        if s[i][0] == s[-1][0] or s[i][1] == s[-1][1] or abs(s[i][0] - s[-1][0]) == abs(s[i][1] - s[-1][1]):
+            res.pop()
+            return False
+    return True
+
+
+def solve(y,x):
+    global res
+    if len(res) == N:
+        result.add(str(sorted(res)))
+        res = []
         return
-    y += move[d][0]
-    x += move[d][1]
-    if 0 <= y < N and 0 <= x < N:
-        if board[y][x] == 0:
-            board[y][x] = -1
-            check(i, j, y, x, d, v)
-            board[y][x] = 0
-        elif board[y][x] == -1:
-            check(i, j, y, x, d, v)
-            board[y][x] = -1
-    else:
-        return
+    for new_y in range(y, N):
+        for new_x in range(x, N):
+            if (new_y,new_x) not in res:
+                res.append((new_y,new_x))
+                check(res)
+                solve(new_y + 1, new_x + 1)
 
 
-def dfs(v):
-    if v == N:
-        res.append(deepcopy(board))
-        return
-    else:
-        rsum = 0
-        for i in range(len(board)):
-            rsum += board[i].count(0)
-        if rsum < N - v:
-            return
-        for i in range(N):
-            for j in range(N):
-                if board[i][j] == 0:
-                    check(i,j,i,j,0,v)
-                    for r in board:
-                        print(r)
-                    print()
 
 
+result = set([])
 res = []
 move = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
-N = 4#int(input())
+N = 92#int(input())
 for i in range(N):
     for j in range(N):
         board = [[0] * N for _ in range(N)]
         if board[i][j] == 0:
-            dfs(0)
+            res.append((i,j))
+            solve(i,j)
+            res = []
 print(res)
 print(len(set(res)))
+print(result, len(result))
 
