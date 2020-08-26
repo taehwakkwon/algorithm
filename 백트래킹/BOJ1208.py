@@ -11,18 +11,14 @@ def solve(v, sum, li, dic):
         solve(v + 1, sum, li, dic)
 
 cnt = 0
-n, s = map(int, sys.stdin.readline().split())
+n, s = map(int, input().split())
 numbers = sorted(list(map(int, input().split())))
-left, middle, right = numbers[:n//3], numbers[n//3:2*n//3], numbers[2*n//3:]
+left, right = numbers[:n//2], numbers[n//2:]
 dic = {}
 solve(0,0,left,dic)
 l_dic = dic
 dic = {}
-solve(0,0,middle,dic)
-m_dic = dic
-dic = {}
 solve(0,0,right,dic)
-
 for key in l_dic:
     if s - key in dic:
         cnt += (l_dic[key] * dic[s-key])
