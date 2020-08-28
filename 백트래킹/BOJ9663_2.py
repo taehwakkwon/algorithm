@@ -28,12 +28,10 @@ def dfs(s,y,x):
                     ch.remove((i,j))
                 j += 1
             i += 1
-for i in range(16):
-    start = time.time()
-    res = []
-    cnt = 0
-    N = i
-    ch = []
-    dfs(0,0,0)
-    print('#%d %d' %(i, len(res)))
+res = []
+cnt = 0
+N = int(input())
+ch = []
+dfs(0,0,0)
+print('#%d %d' %(i, len(res)))
     print('time:',time.time()-start)

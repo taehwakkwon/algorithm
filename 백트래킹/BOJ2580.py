@@ -1,42 +1,57 @@
 import sys
 sys.stdin = open('input.txt')
-def check(i, j):
-    num_count = [0] * 9
-    for dy, dx in [(0, 1), (1, 0), (0, -1), (0, -1)]:
-        new_y, new_x = i, j
-        while 0 <= new_y < 9 and 0 <= new_x < 9:
-            if board[new_y][new_x] != 0:
-                num_count[board[new_y][new_x] - 1] += 1
-            new_y += dy
-            new_x += dx
-    if num_count.count(0) == 1:
-        return num_count
-    new_y, new_x = i//3, j//3
-    for p in range(3):
-        for q in range(3):
-            if board[new_y*3+p][new_x*3+q] != 0:
-                num_count[board[new_y*3+p][new_x*3+q] - 1] += 1
-    return num_count
+import sys
+sys.setrecursionlimit(10**7)
 
 
 
-
-def solve(y, x):
-    if (y, x) == (8, 9):
-        return
-    if x == 9:
-        solve(y+1,0)
-    else:
-        if board[y][x] == 0:
-            count = check(y,x)
-            for i in range(9):
-                if count[i] == 0:
-                    board[y][x] = i + 1
-        solve(y, x + 1)
+def check(y, x):
 
 
+def dfs(y, x):
+    for i in range(9):
+        for j in range(9):
+            if row_board[i][j] == 0:
+                c = [0]*10
+                for p in range(3):
+                    for q in range(3):
+                        c[row_board[i//3*3 + p][j//3*3 + q]] = 1
+                for k in range(1, 10):
+                    if row_board[i].count(k) == 0 and col_board[j].count(k) == 0 and c[k] == 0:
+                        row_board[i][j] = k
+                        col_board[j][i] = k
+                        dfs(0, 0)
+                        row_board[i][j] = 0
+                        col_board[j][i] = 0
+    if check():
+        for r in row_board:
+            print(*r)
+        sys.exit()
 
-board = [list(map(int, input().split())) for _ in range(9)]
-solve(0,0)
-for r in board:
-    print(*r)
+row_board = [list(map(int, input().split())) for _ in range(9)]
+col_board = transpose(row_board)
+
+
+
+dfs(0,0)
+'''
+4 6 7 8 0 0 2 0 9
+3 4 9 8 2 0 5 0 0
+2 1 4 9 5 3 6 8 0
+3 7 1 2 9 4 0 0 6
+1 3 6 0 0 0 0 0 8
+2 6 7 8 4 0 0 5 1
+1 3 7 5 8 4 0 9 0
+1 2 3 0 7 9 0 4 0
+5 4 9 0 0 2 7 6 0
+
+4 6 7 8 0 0 2 0 9
+3 4 9 8 2 0 5 0 0
+2 1 4 9 5 3 6 8 0
+3 7 1 2 9 4 0 0 6
+1 3 6 0 0 0 0 0 8
+2 6 7 8 4 0 0 5 1
+1 3 7 5 8 4 0 9 0
+1 2 3 0 7 9 0 4 0
+5 4 9 3 0 2 7 6 0
+'''

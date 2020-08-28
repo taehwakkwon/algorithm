@@ -37,10 +37,10 @@ def dfs(s, y, x):
                 j += 1
             i += 1
 
-for i in range(16):
+for i in range(12,13):
     res = []
     cnt = 0
-    N = 15#int(input())
+    N = 12#int(input())
     ch = []
     row = []
     col = []

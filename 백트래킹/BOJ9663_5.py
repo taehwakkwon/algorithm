@@ -18,7 +18,8 @@ for q in range(16):
                 a[j] = b[i+j] = c[i-j+n-1] = False
 
     solve_dfs(0)
-    print(ans)
+    print('#%d %d'%(q, ans))
+
     print(q, time.time()-start)
 # n = 15
 # 2279184
