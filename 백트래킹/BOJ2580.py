@@ -3,7 +3,6 @@ sys.stdin = open('input.txt')
 import time
 start = time.time()
 
-
 import sys
 def transpose(board):
     new_board = []
@@ -38,26 +37,39 @@ def dfs(zero):
             for j in range(9):
                 if board[i][j] == 0:
                     for k in range(1,10):
-                        # print(k)
-                        # print(board[i])
-                        # print(board_transposed[i])
-                        # print(board_box[i//3][j//3])
-                        if k not in board[i] and k not in board_transposed[j] and k not in board_box[i//3][j//3]:
-                            board[i][j] = k
-                            board_transposed[j][i] = k
-                            board_box[i//3][j//3][i % 3 * 3 + j % 3] = k
-                            dfs(zero - 1)
-                            board[i][j] = 0
-                            board_transposed[j][i] = 0
-                            board_box[i // 3][j // 3][i % 3 * 3 + j % 3] = k
+                        flag = True
+                        if k in board[i]:
+                            flag = False
+                            continue
+                        if flag:
+                            for l in range(9):
+                                if board[j][l] == k:
+                                    flag = False
+                                    break
+                        if flag:
+                            inflag = True
+                            for p in range(3):
+                                for q in range(3):
+                                    if board[i//3 + p][j//3 + q] == k:
+                                        flag = False
+                                        inflag = False
+                                        break
+                                if inflag == False:
+                                    break
+                        board[i][j] = k
+                        dfs(zero - 1)
+                        board[i][j] = 0
+                    return
 
 
-board = [list(map(int, input().split())) for _ in range(9)]
+
+board = [list(map(int, sys.stdin.readline().split())) for _ in range(9)]
 board_transposed = transpose(board)
 board_box = make_box(board)
 zero = 0
 for i in range(9):
     zero += board[i].count(0)
+
 dfs(zero)
 
 

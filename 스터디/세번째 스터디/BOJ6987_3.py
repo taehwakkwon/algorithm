@@ -1,6 +1,7 @@
 import sys
 sys.stdin = open('input.txt')
-
+import time
+start = time.time()
 import sys
 sys.setrecursionlimit(10**7)
 def combinations(v, s, res):
@@ -30,11 +31,12 @@ def dfs(v):
 n = 6
 result = []
 combinations(0, 0, [])
-for i in range(16):
+for i in range(12):
     res = 0
     ans = list(map(int, input().split()))
 
     dfs(0)
     print(res, end = ' ')
-
+print()
+print(time.time()-start)
 #1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 0

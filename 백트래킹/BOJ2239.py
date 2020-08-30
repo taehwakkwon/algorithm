@@ -5,7 +5,6 @@ import time
 start = time.time()
 
 import sys
-from copy import deepcopy
 def transpose(board):
     new_board = []
     for i in range(9):
@@ -43,16 +42,15 @@ def dfs():
                         board_transposed[j][i] = 0
                         board_box[i // 3][j // 3][i % 3 * 3 + j % 3] = 0
                 return
-    result.append(deepcopy(board))
     for r in board:
-        print(*r)
-    print(time.time() - start)
+        print(''.join(map(str,r)))
     sys.exit()
 
 if __name__ == "__main__":
-    board = [list(map(int, sys.stdin.readline().split())) for _ in range(9)]
+    board = [list(map(int, sys.stdin.readline().rstrip())) for _ in range(9)]
     board_transposed = transpose(board)
     board_box = make_box(board)
-    result = []
     dfs()
+
+    print(time.time() - start)
 
