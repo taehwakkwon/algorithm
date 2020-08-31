@@ -1,10 +1,5 @@
-import sys
-sys.stdin = open('input.txt')
-import time
-start = time.time()
-import sys
 from sys import stdin, setrecursionlimit
-
+stdin = open('input.txt')
 setrecursionlimit(1000000)
 
 input = stdin.readline
@@ -60,5 +55,3 @@ Criterion = 1
 dfs(0, 1, 0)
 
 print(Count[0] + Count[1])
-
-print(time.time() - start)

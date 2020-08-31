@@ -3,51 +3,40 @@ sys.stdin = open('input.txt')
 import time
 
 start = time.time()
-def dfs():
+# 0 0  0 1  0 2  0 3  0 4
+# 1 0  1 1  1 2  1 3  1 4
+# 2 0  2 1  2 2  2 3  2 4
+# 3 0  3 1  3 2  3 3  3 4
+# 4 0  4 1  4 2  4 3  4 4
+def check(r,c):
+    for i in range(len(bishop)):
+        if abs(r - bishop[i][0]) == abs(c - bishop[i][1]):
+            return False
+    return True
+
+
+def dfs(r,c):
     global M
     if M < len(bishop):
         M = len(bishop)
     for i in range(n):
         for j in range(n):
-            if board[i][j] >= 1 and (i,j) not in bishop:
+            if board[i][j] == 1 and check(i,j):
                 bishop.append((i,j))
-                for dr, dc in [(1, 1), (-1, 1), (1, -1), (-1, -1)]:
-                    new_r, new_c = i + dr, j + dc
-                    while 0 <= new_r < n and 0 <= new_c < n:
-                        board[new_r][new_c] -= 1
-                        new_r += dr
-                        new_c += dc
-                dfs()
-                bishop.remove((i,j))
-                for dr, dc in [(1, 1), (-1, 1), (1, -1), (-1, -1)]:
-                    new_r, new_c = i + dr, j + dc
-                    while 0 <= new_r < n and 0 <= new_c < n:
-                        board[new_r][new_c] += 1
-                        new_r += dr
-                        new_c += dc
+                if dfs(i, j): return
+                bishop.pop()
     return
-
-def dfs(v):
-    for i in range(v + 1):
-        if board[n - v - 1 + i][i] >= 1 and (n - v - 1 + i, i) not in bishop:
-            bishop.append((n - v - 1 + i, i))
-            for dr, dc in [(1, 1), (-1, 1), (1, -1), (-1, -1)]:
-                new_r, new_c = v + dr, i + dc
-                while 0 <= new_r < n and 0 <= new_c < n:
-                    board[new_r][new_c] -= 1
-                    new_r += dr
-                    new_c += dc
-                dfs(v + 1)
-
-
-
 
 
 M = 0
 n = int(input())
 board = [list(map(int, input().split())) for _ in range(n)]
 bishop = []
-dfs()
+dfs(0,0)
 print(M)
+
+
+
 print(time.time()-start)
+
 
