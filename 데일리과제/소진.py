@@ -1,145 +1,46 @@
 import sys
 sys.stdin = open("sample_input.txt", "r")
-def find_palindrome(board):
-    result = "" # 회문을 찾으면 반환하기 위한 변수
-    #행우선순회
-    for i in range(N):
-        for j in range(N-M+1):
-            #회문검사
-            for k in range(M//2):
-                if board[i][j+k] != board[i][j+M-1-k]:
-                    break   #회문이 아님
-            else: #회문 찾음
-                result = board[i][j:j+M]
-                return result
-    #열우선순회
-    for i in range(N):
-        for j in range(N-M+1):
-            #회문검사
-            for k in range(M//2):
-                if board[j+k][i] != board[j+M-1-k][i]:
-                    break   #회문이 아님
-            else: #회문 찾음
-                for x in range(j,j+M):
-                   result += board[x][i]
-                return result
 
 T = int(input())
-for tc in range(1,T+1):
-    N, M = map(int, input().split())
-    ttttt = [ input() for _ in range(N)]
-    result = find_palindrome(ttttt)
-    # 행 우선순회
-    # 열 우선 순회
+for tc in range(1, T+1):
 
-    print("#{} {}".format(tc,result))
+#1. 피연산자를 만나면 스택에 PUSH함
+#2. 연산자를 만나면 필요한 만큼의 피연산자를 스택에 POP하여 연산하고 연산결과를 다시 스택에 PUSH함
+#3. 수식이 끝나면 마지막으로 스택을 PUSH함
 
-
-
-
-
-
-
-
-
-sys.setrecursionlimit(10**7)
-import time
-def DP(N):
-    if N == 10:
-        return 1
-    elif N == 20:
-        return 3
-    elif arr[N] != 0:
-        return arr[N]
-    else:
-        arr[N] = (DP(N-10) + DP(N-20) * 2)%1000000000
-        return arr[N]
-start = time.time()
-for i in range(1):
-    T = int(input())
-    for tc in range(T):
-        N = int(input())
-        arr = [0]*(N+1)
-        DP(N)
-        print('#%d %d' % (tc+1, DP(N)))
-print('time: ', (time.time()-start))
-def DP(N):
-    if N == 10:
-        return 1
-    elif N == 20:
-        return 3
-    elif N != 0:
-        return (DP(N-10) + DP(N-20) * 2)%1000000000
-
-import time
-start = time.time()
-
-for i in range(1):
-    T = int(input())
-    for tc in range(T):
-        N = int(input())
-        DP(N)
-        print('#%d %d' % (tc+1, DP(N)))
-
-print('time: ', (time.time() - start))
-
-'''
-def check(arr):
-    for i in range(len(arr)):
-        if arr[i] == '(' or arr[i] == '{' or arr[i] == '[':  # push
-            stack.append(arr[i])
-        elif arr[i] == ')':  # pop하고 비교
-            if stack and stack[-1] == '(':
-                stack.pop()
-            else:
-                return False
-        elif arr[i] == '}':  # pop하고 비교
-            if stack and stack[-1] == '{':
-                stack.pop()
-            else:
-                return False
-        elif arr[i] == ']':  # pop하고 비교
-            if stack and stack[-1] == '[':
-                stack.pop()
-            else:
-                return False
-    if stack:
-        return False
-    else:
-        return True
-
-
-T = int(input())
-for tc in range(T):
-    arr = input()
+    arr = list((input().split()))
     stack = []
-    print(check(arr))
 
-
-
-def DFS(node):
-    global res
-    visited.append(node)
-    if node == g:
-        res = 1
-        return
-    else:
-        for i in range(51):
-            if arr[node][i] == 1 and i not in visited:
-                DFS(i)
-
-T = int(input())
-for tc in range(1, T + 1):
-    arr = [[0]*51 for _ in range(51)]
-    V, E = map(int, input().split())
-    for i in range(E):
-        x, y = map(int, input().split())
-        arr[x][y] = 1
-    s, g = map(int, input().split())
-    visited = []
     res = 0
-    DFS(s)
-    print('#%d %d' % (tc, res))
+    for i in range(len(arr)):
+        if arr[i] == '.':
+            if len(stack) > 1:
+                res = "error"
+            break
 
+        elif arr[i] == '+' or arr[i] == '-' or arr[i] == '*' or arr[i] == '/':
+            if len(stack) >= 2:
+                x, y = int(stack.pop()), int(stack.pop())
 
-'''
+                if arr[i] == '+':
+                    res = y + x
+                    stack.append(res)
+
+                elif arr[i] == '-':
+                    res = y - x
+                    stack.append(res)
+
+                elif arr[i] == '*':
+                    res = y * x
+                    stack.append(res)
+
+                elif arr[i] == '/':
+                    res = y // x
+                    stack.append(res)
+            else:
+                res = "error"
+                break
+
+        else:
+            stack.append(arr[i])
+    print("#%d" %tc, res)

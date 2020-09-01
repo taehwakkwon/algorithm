@@ -1,37 +1,68 @@
 import sys
 sys.stdin = open('sample_input.txt')
 
+def calculator(equ):
+    pivot = 0
+    while pivot < len(equ):
+        if equ[pivot] == '*':
+            a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+            pivot -= 2
+            equ[pivot] = float(b) * float(a)
+        elif equ[pivot] == '/':
+            a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+            pivot -= 2
+            equ[pivot] = float(b) / float(a)
+        elif equ[pivot] == '+':
+            a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+            pivot -= 2
+            equ[pivot] = float(b) + float(a)
+        elif equ[pivot] == '-':
+            a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+            pivot -= 2
+            equ[pivot] = float(b) - float(a)
+        else:
+            pivot += 1
+    return equ[0]
 
-T = 1
 
-for tc in range(1, 1 + T):
-    n = len("3+(4+5)*6+7")#int(input())
-    equ = "3+(4+5)*6+7"#input()
-    stack_operator = []
+operator = ['*','/','+','-']
+icp = {'*':2, '/':2, '+':1, '-':1, '(':0, '(': -1}
+isp = {'*':2, '/':2, '+':1, '-':1, '(':3, '(': -1}
+
+T = 10
+for t in range(1, T + 1):
+    n = int(input())
+    equ = input()
     res = ''
-    i = 0
-    while i < n:
+    operator = []
+    for i in range(n):
         if equ[i].isdigit():
             res += equ[i]
         else:
             if equ[i] == ')':
-                for j in range(len(stack_operator) - 1, -1, -1):
-                    if stack_operator[j] == '(':
-                        stack_operator.pop()
+                while True:
+                    p = operator.pop()
+                    if p == '(':
                         break
-                    else:
-                        res += stack_operator.pop()
-            elif stack_operator and equ[i] == '*' and stack_operator[-1] == '*':
-                res += stack_operator.pop()
-            elif stack_operator and equ[i] == '+' and (stack_operator[-1] == '+' or stack_operator[-1] == '*'):
-                res += stack_operator.pop()
-
-            stack_operator.append(equ[i])
-        i += 1
+                    res += p
+            elif equ[i] == '(':
+                operator.append('(')
+            else:
+                p = ' '
+                while operator and icp[equ[i]] <= isp[operator[-1]]:
+                    p = operator.pop()
+                    if p != '(':
+                        res += p
+                operator.append(equ[i])
     else:
-        print(stack_operator)
-        while stack_operator:
-            res += stack_operator.pop()
-    print(res)
+        while operator:
+            p = operator.pop()
+            if p != '(':
+                res += p
+    res = calculator(list(res))
 
-#345+6*+7+
+    print('#%d %d' % (t, res))
+
+# 3+(4+5+3*2)*6+7
+# 34532*++6*+7+
+# 345+6*+7+

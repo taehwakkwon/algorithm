@@ -1,18 +1,35 @@
 import sys
 sys.stdin = open('input.txt')
 
-
-alphabet = list(map(chr, range(ord('A'),ord('Z')+1)))
-operator = ['+','-','*','/']
-
-N = int(input())
+operator = ['*','/','+','-']
+n = int(input())
 equ = list(input())
-for i in range(N):
-    equ[equ.index(alphabet[i])] = int(input())
-i = 0
-res = float('inf')
-print(equ)
-while i < len(equ):
+alphabet = {chr(x) : 0 for x in range(ord('A'), ord('Z')+1)}
+for i in range(n):
+    alphabet[chr(i+ord('A'))] = int(input())
 
-print(res)
-print(equ)
+for i in range(len(equ)):
+    if equ[i] in alphabet:
+        equ[i] = alphabet[equ[i]]
+
+pivot = 0
+while pivot < len(equ):
+    if equ[pivot] == '*':
+        a, b = equ.pop(pivot-1), equ.pop(pivot-2)
+        pivot -= 2
+        equ[pivot] = b*a
+    elif equ[pivot] == '/':
+        a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+        pivot -= 2
+        equ[pivot] = b / a
+    elif equ[pivot] == '+':
+        a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+        pivot -= 2
+        equ[pivot] = b + a
+    elif equ[pivot] == '-':
+        a, b = equ.pop(pivot - 1), equ.pop(pivot - 2)
+        pivot -= 2
+        equ[pivot] = b - a
+    else:
+        pivot += 1
+print('%.2f'  %equ[0])
