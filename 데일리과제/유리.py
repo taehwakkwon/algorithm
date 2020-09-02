@@ -1,30 +1,19 @@
 import sys
 sys.stdin = open('sample_input.txt')
 
-T = int(input())
-for tc in range(1, T+1):
-    N = int(input())
-    arr = []
-    for n in range(N):
-        row = list(map(int, input()))
-        arr.append(row)
-    dr = [0, -1, 0, 1]   # 우, 상, 좌, 하
-    dc = [1, 0, -1, 0]
-    for r in range(N):
-        for c in range(N):
-            if arr[r][c] == 2:
-                visited = [[0]*N for _ in range(N)]
-                stack = []
-                stack.append((r, c))
-                while stack:
-                    nr, nc = stack.pop()
-                    visited[nr][nc] = 1
-                    for d in range(len(dr)):
-                        sr = nr + dr[d]
-                        sc = nc + dc[d]
-                        if 0<= sr <N and 0<= sc < N and arr[sr][sc] !=1 and visited[sr][sc] ==0:
-                            stack.append((sr,sc))
-                            visited[sr][sc] = 1
-                            if arr[sr][sc] == 3:
-                                print('1')
-                                break
+T = 10
+for tc in range(T):
+    case = int(input())
+    str_list = list(input())
+    icp = {'(':3, '*':2, '+':1}
+    isp = {'*':2, '+':1, '(':0}
+    stack = []
+    cal_list = []
+    for i in range(len(str_list)):
+        if str_list[i] != '(' and str_list[i] != ')' and str_list[i] != '*' and str_list[i] != '+':    # 숫자일 때
+            cal_list.append(str_list[i])
+        else:                                                                                          # 연산자일 때
+            if len(stack) == 0:                                                                        # 스택에 아무것도 없을 때
+                stack.append(str_list[i])
+            else:                                                                                      # 스택에 연산자가 있을 때
+                if isp[stack(-1)] < icp[str_list[i]]:

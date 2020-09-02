@@ -14,6 +14,7 @@ def dfs(i,j):
             if 0 <= r < n and 0 <= c < n and board[r][c] != 1:
                 dfs(r, c)
 
+
 T = int(input())
 for t in range(1, T + 1):
     n = int(input())

@@ -1,34 +1,38 @@
 import sys
 sys.stdin = open('sample_input.txt')
-def dfs():
-    global min_cnt, result
-    dr = [0,0,1]
-    dc = [-1,1,0]
-    for i in range(len(ladder)):
-        if ladder[0][i]==1:
-            visited = [[0]*100 for _ in range(100)]
-            stack = []
-            stack.append((0,i))
-            cnt = 1
-            while stack:
-                cr, cc = stack.pop()
-                visited[cr][cc] = 1
-                for d in range(3):
-                    nr = cr+dr[d]
-                    nc = cc+dc[d]
-                    if 0 <= nr < 100 and 0 <= nc < 100 and not visited[nr][nc] and ladder[nr][nc]==1:
-                        stack.append((nr,nc))
-                        cnt += 1
-                        if nr == 99:
-                            if min_cnt > cnt:
-                                min_cnt = cnt
-                                result = i
-                        break
-t = 10
-for tc in range(1,11):
+icp = {'*': 2,'/': 2,'-':1 ,'+': 1, '(': 3}
+isp = {'*': 2,'/': 2,'-':1, '+': 1, '(': 0}
+alphabet = list(map(chr, range(ord('A'),ord('Z')+1)))
+
+
+T = 1
+for t in range(1, T + 1):
     n = int(input())
-    ladder = [list(map(int,input().split())) for _ in range(100)]
-    min_cnt = 10000
-    result = 0
-    dfs()
-    print('#%d %d' %(tc, result))
+    equ = input()
+    num = ''
+    operator = []
+    for i in range(n):
+#        print(i)
+        if equ[i] in alphabet:
+            num += equ[i]
+        else:
+            if equ[i] == ')':
+                p = ' '
+                while operator:
+                    p = operator.pop()
+                    if p == '(':
+                        break
+                    num += p
+            elif operator == [] or isp[operator[-1]] < icp[equ[i]]:
+                operator.append(equ[i])
+            elif operator and isp[operator[-1]] >= icp[equ[i]]:
+                p = equ[i]
+                while isp[operator[-1]] >= icp[equ[i]]:
+                    num += operator.pop()
+                operator.append(p)
+    else:
+        while operator:
+            p = operator.pop()
+            if p !='(':
+                num += p
+    print(num)

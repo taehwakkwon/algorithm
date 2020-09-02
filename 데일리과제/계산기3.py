@@ -26,9 +26,10 @@ def calculator(equ):
 
 
 operator = ['*','/','+','-']
-icp = {'*':2, '/':2, '+':1, '-':1, '(':0, '(': -1}
-isp = {'*':2, '/':2, '+':1, '-':1, '(':3, '(': -1}
+icp = {'*':2, '/':2, '+':1, '-':1, '(': 3}
+isp = {'*':2, '/':2, '+':1, '-':1, '(': 0}
 
+print(icp, isp)
 T = 10
 for t in range(1, T + 1):
     n = int(input())
@@ -41,6 +42,7 @@ for t in range(1, T + 1):
         else:
             if equ[i] == ')':
                 while True:
+                    print(operator)
                     p = operator.pop()
                     if p == '(':
                         break
@@ -49,7 +51,7 @@ for t in range(1, T + 1):
                 operator.append('(')
             else:
                 p = ' '
-                while operator and icp[equ[i]] <= isp[operator[-1]]:
+                while operator and icp[equ[i]] > isp[operator[-1]]:
                     p = operator.pop()
                     if p != '(':
                         res += p

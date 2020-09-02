@@ -1,9 +1,6 @@
 import sys
 sys.stdin = open('input.txt')
-import time
-start = time.time()
-import sys
-sys.setrecursionlimit(10**7)
+
 def combinations(v, s, res):
     if v == 2:
         result.extend(res[:])
@@ -34,10 +31,6 @@ combinations(0, 0, [])
 for i in range(4):
     res = 0
     ans = list(map(int, input().split()))
-    print(ans)
 
     dfs(0)
     print(res, end = ' ')
-print()
-print(time.time()-start)
-#1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 0

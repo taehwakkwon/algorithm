@@ -15,6 +15,7 @@ def dfs(v, s):
                 dfs(v + 1, s + board[v][c])
                 row[c] = 0
 
+
 T = int(input())
 for t in range(1, T + 1):
     n = int(input())
@@ -23,3 +24,5 @@ for t in range(1, T + 1):
     m = float('inf')
     dfs(0, 0)
     print('#%d %d' %(t, m))
+
+
