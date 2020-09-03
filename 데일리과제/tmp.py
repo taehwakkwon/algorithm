@@ -1,24 +1,64 @@
 import sys
-sys. stdin = open("sample_input.txt", "r")
+sys.stdin = open("sample_input.txt", "r")
 
-str1_num = []
+def dfs(v, s):
+    global m
+    if s > m:
+        return
+    if v == n:
+        if s < m:
+            m = s
+    else:
+        for c in range(n):
+            if visited[c] == 0:
+                visited[c] = 1
+                dfs(v + 1, s + board[v][c])
+                visited[c] = 0
+
 
 T = int(input())
-for tc in range(T):
-    str1_num = []
-    str1 = list(input())
-    for new in range(1, len(str1)+1):
-        new = 0
-        str1_num.append(new)
+for t in range(1, 1 + T):
+    n = int(input())
+    board = [list(map(int, input().split())) for _ in range(n)]
+    visited = [0]*n
+    m = float('inf')
+    dfs(0, 0)
+    print(m)
 
-    list_C = { name:value for name, value in zip(str1,str1_num)}
-    print(list_C.keys())
 
-    str2 = list(input())
-    count = 0
-    for x in str2:
-        if x == list_C.keys():
-            list_C += 1
-        print(list_C)
-    #     print(str2)
-        # if x == ''
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# def dfs(v,s):
+#     if v == m:
+#         for i in range(m):
+#             print(res[i], end = ' ')
+#         print()
+#         return
+#     else:
+#         for i in range(s, n + 1):
+#             res[v] = i
+#             dfs(v + 1, i + 1)
+#
+#
+# n = 6
+# m = 3
+# res = [0]*(n + 1)
+# dfs(0,1)
+# for i in range(1,6):
+#     for j in range(i + 1, 6):
+#         for k in range(j + 1, 6):
+#             print((i, j, k), end = ' ')

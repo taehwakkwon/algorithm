@@ -1,4 +1,7 @@
 import sys
+sys.stdin = open('input.txt')
+
+import sys
 sys.setrecursionlimit(10**7)
 
 def combinations(v, s, res):
@@ -11,9 +14,11 @@ def combinations(v, s, res):
 
 
 def dfs(v):
+    for i in range(15):
+        if a[i] < ans[i]:
+            return
     if v == 15:
         visited.add(str(ans))
-        print(len(visited))
         return
     else:
         ans[result[v * 2] * 3] += 1 #승
@@ -39,12 +44,11 @@ n = 6
 ans = [0]*n*3
 result = []
 combinations(0, 0, [])
-print(result)
 visited = set([])
-dfs(0)
 for i in range(4):
     res = 0
     a = list(map(int, input().split()))
+    dfs(0)
     print(res)
 
 

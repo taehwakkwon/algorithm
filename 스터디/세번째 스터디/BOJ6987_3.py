@@ -12,7 +12,6 @@ def combinations(v, s, res):
         for i in range(s, n):
             combinations(v + 1, i + 1, res + [i])
 
-
 def dfs(v):
     global res
     if v == 15:
@@ -31,10 +30,10 @@ def dfs(v):
 n = 6
 result = []
 combinations(0, 0, [])
+print(result)
 for i in range(4):
     res = 0
     ans = list(map(int, input().split()))
-    print(ans)
 
     dfs(0)
     print(res, end = ' ')

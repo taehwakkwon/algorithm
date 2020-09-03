@@ -1,19 +1,23 @@
 import sys
 sys.stdin = open('sample_input.txt')
 
-T = 10
-for tc in range(T):
-    case = int(input())
-    str_list = list(input())
-    icp = {'(':3, '*':2, '+':1}
-    isp = {'*':2, '+':1, '(':0}
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    visited = [[0] * N for _ in range(N)]
     stack = []
-    cal_list = []
-    for i in range(len(str_list)):
-        if str_list[i] != '(' and str_list[i] != ')' and str_list[i] != '*' and str_list[i] != '+':    # 숫자일 때
-            cal_list.append(str_list[i])
-        else:                                                                                          # 연산자일 때
-            if len(stack) == 0:                                                                        # 스택에 아무것도 없을 때
-                stack.append(str_list[i])
-            else:                                                                                      # 스택에 연산자가 있을 때
-                if isp[stack(-1)] < icp[str_list[i]]:
+    arr = []
+    m = float('inf')
+    for n in range(N):
+        arr.append(list(map(int, input().split())))
+    for i in range(N):
+        for j in range(N):
+            if visited[i][j] == 0:
+                stack.append(arr[i][j])
+                for p in range(N):
+                    visited[p][j] = visited[i][p] = 1
+                # for r in visited:
+                #     print(*r)
+                # print(arr[i][j], (i,j))
+        print(stack)
+        print(tc)

@@ -1,7 +1,7 @@
 #import sys
 #sys.stdin = open('sample_input.txt')
 
-def dfs(i,j):
+def dfs(i,j,s):
     global res
     if board[i][j] == 3:
         res = 1
@@ -12,7 +12,7 @@ def dfs(i,j):
             r = i + dr
             c = j + dc
             if 0 <= r < n and 0 <= c < n and board[r][c] != 1:
-                dfs(r, c)
+                dfs(r, c, s + 1)
 
 
 T = int(input())

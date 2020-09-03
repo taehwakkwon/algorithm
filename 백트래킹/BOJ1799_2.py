@@ -6,8 +6,10 @@ def dfs():
     global M
     if M < len(bishop):
         M = len(bishop)
+
     for i in range(n):
         for j in range(n):
+            #print(i, j, board[i][j])
             if board[i][j] >= 1 and (i,j) not in bishop:
                 bishop.append((i,j))
                 for dr, dc in [(1, 1), (-1, 1), (1, -1), (-1, -1)]:
@@ -16,9 +18,8 @@ def dfs():
                         board[new_r][new_c] -= 1
                         new_r += dr
                         new_c += dc
-                #if dfs(): return
                 dfs()
-                bishop.remove((i,j))
+                bishop.pop()
                 for dr, dc in [(1, 1), (-1, 1), (1, -1), (-1, -1)]:
                     new_r, new_c = i + dr, j + dc
                     while 0 <= new_r < n and 0 <= new_c < n:
@@ -26,6 +27,7 @@ def dfs():
                         new_r += dr
                         new_c += dc
     return
+
 
 M = 0
 n = int(input())

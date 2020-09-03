@@ -3,19 +3,22 @@ import sys
 
 
 def solve(n):
-    if n == 0:
-        return 1
-    if n == 1:
-        return 0
     if n == 2:
         return 3
     if dp[n] != 0:
         return dp[n]
-    dp[n] = solve(n - 2)*3 + 2
+    dp[n] = (4*solve(n - 2) - solve(n-4))%1000000007
     return dp[n]
 
-dp = [0]*31
-print(solve(int(input())))
+
+for i in range(0,101,2):
+    n = i#int(input())
+    dp = [1,0,3] + [0]*(n-2)
+
+    if n % 2 or n == 0:
+        print(0)
+    else:
+        print(solve(n))
 
 
 #n = 2 : 3

@@ -19,14 +19,12 @@ def dfs(start, v, s, cnt):
                 dfs(start, i, s + board[v][i], cnt + 1)
                 visited[i] = 0
 
-
 n = int(input())
 board = [list(map(int, input().split())) for _ in range(n)]
 visited = [0]*(n + 1)
 m = float('inf')
-for i in range(n):
-    visited[i] = 1
-    dfs(i, i,0, 1)
-    visited[i] = 0
+visited[0] = 1
+dfs(0, 0, 0, 1)
+
 print(m)
 print(time.time()-start)

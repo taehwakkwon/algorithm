@@ -3,36 +3,39 @@ sys.stdin = open('input.txt')
 import time
 
 start = time.time()
-# 0 0  0 1  0 2  0 3  0 4
-# 1 0  1 1  1 2  1 3  1 4
-# 2 0  2 1  2 2  2 3  2 4
-# 3 0  3 1  3 2  3 3  3 4
-# 4 0  4 1  4 2  4 3  4 4
-def check(r,c):
-    for i in range(len(bishop)):
-        if abs(r - bishop[i][0]) == abs(c - bishop[i][1]):
-            return False
-    return True
-
-
-def dfs(r,c):
+import sys
+def dfs(r, c, s):
     global M
-    if M < len(bishop):
-        M = len(bishop)
-    for i in range(n):
-        for j in range(n):
-            if board[i][j] == 1 and check(i,j):
-                bishop.append((i,j))
-                if dfs(i, j): return
-                bishop.pop()
-    return
+    if r == c == n - 1:
+        if M < s:
+            M = s
+        return
+    else:
+        for i in range(n):
+            for j in range(n):
+                if board[i][j] == 1:
+                    for p, q in combinations_right[i + j]:
+                        board[p][q] -= 1
+                    for p, q in combinations_left[i - j + n]:
+                        board[p][q] -= 1
+                    dfs(i,j,s + 1)
+                    for p, q in combinations_right[i + j]:
+                        board[p][q] += 1
+                    for p, q in combinations_left[i - j + n]:
+                        board[p][q] += 1
+        return
 
 
 M = 0
-n = int(input())
-board = [list(map(int, input().split())) for _ in range(n)]
-bishop = []
-dfs(0,0)
+n = int(sys.stdin.readline())
+board = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
+combinations_right = {}
+combinations_left = {}
+for i in range(n):
+    for j in range(n):
+        combinations_right[i+j] = combinations_right.get(i+j, []) + [(i, j)]
+        combinations_left[i - j + n] = combinations_left.get(i - j + n, []) + [(i, j)]
+dfs(0,0,0)
 print(M)
 
 
