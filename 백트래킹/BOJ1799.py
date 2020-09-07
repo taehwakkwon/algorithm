@@ -9,36 +9,26 @@ def dfs(r, c, s):
     if r == c == n - 1:
         if M < s:
             M = s
-        return
     else:
         for i in range(n):
             for j in range(n):
-                if board[i][j] == 1:
-                    for p, q in combinations_right[i + j]:
-                        board[p][q] -= 1
-                    for p, q in combinations_left[i - j + n]:
-                        board[p][q] -= 1
+                if board[i][j] == 0 or left[i + j] == 1 or right[i - j + n] == 1:
+                    continue
+                else:
+                    board[i][j] = 0
+                    left[i + j] = right[i - j + n] = 1
                     dfs(i,j,s + 1)
-                    for p, q in combinations_right[i + j]:
-                        board[p][q] += 1
-                    for p, q in combinations_left[i - j + n]:
-                        board[p][q] += 1
-        return
+                    board[i][j] = 1
+                    left[i + j] = right[i - j + n] = 0
 
 
 M = 0
 n = int(sys.stdin.readline())
 board = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
-combinations_right = {}
-combinations_left = {}
-for i in range(n):
-    for j in range(n):
-        combinations_right[i+j] = combinations_right.get(i+j, []) + [(i, j)]
-        combinations_left[i - j + n] = combinations_left.get(i - j + n, []) + [(i, j)]
+left = [0]*(2*n+1)
+right = [0]*(2*n+1)
 dfs(0,0,0)
 print(M)
-
-
 
 print(time.time()-start)
 
