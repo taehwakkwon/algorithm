@@ -2,20 +2,28 @@ import sys
 sys.stdin=open('input.txt')
 import time
 start = time.time()
+from collections import deque
+
+def dfs(pre, v):
+    if not queue:
+        queue.append([a,b])
+    
+
+
+
+cnt = 0
 n = int(input())
 M = 0
-infos = sorted([list(map(int, input().split())) for _ in range(n)], key = lambda  x: x[1])
-room = []
-for p,q in infos:
-    for i in range(len(room)):
-        if room[i][0] >= q:
-            room[i][0] = p
-            break
-        if room[i][1] <= p:
-            room[i][1] = p
-            break
-    else:
-        room.append([p,q])
+queue = deque([])
+for i in range(n):
+    pivot = len(queue) // 2
+    a, b = map(int, input().split())
 
+
+
+infos = [list(map(int, input().split())) for _ in range(n)]
+room = []
+print(infos)
+print(room)
 print(len(room))
 print(time.time()-start)
