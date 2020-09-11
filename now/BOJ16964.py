@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('../DFS_BFS/input.txt')
 
 def dfs(v):
     global res
