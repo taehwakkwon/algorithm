@@ -1,5 +1,6 @@
 import sys
 sys.stdin = open('input.txt')
+
 n = int(input())
 k = int(input())
 for j in range(k):
