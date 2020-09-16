@@ -1,54 +1,93 @@
 import sys
-sys.stdin=open('../input.txt')
+sys.stdin=open('input.txt')
 import time
 start = time.time()
-
-def push(li):
-    global count
-    count += 1
-    idx = 1
-    while li[0] > tree[idx][1]:
-        idx = tree[idx][3]
-    else:
-        if tree[idx][3] == 0:
-            tree[idx][3] = count
-            tree[count][:2] = li
-        else:
-            if tree[idx][1] < li[0] < tree[tree[idx][3]][0]:
-                tree[count][3] = tree[idx][3]
-                tree[idx][3] = count
-                tree[count][:2] = li
-            else:
-                tree[idx][2] = count
-                tree[count][:2] = li
-        return
-    while li[1] < tree[idx][0]:
-        idx = tree[idx][2]
-    else:
-        if tree[idx][2] == 0:
-            tree[idx][2] = count
-            tree[count][:2] = li
-        else:
-            if tree[idx][0] > li[0] > tree[tree[idx][3]][1]:
-                tree[count][2] = tree[idx][2]
-                tree[idx][2] = count
-                tree[count][:2] = li
-            else:
-                tree[idx][3] = count
-                tree[count][:2] = li
-    return
-
-count = 0
-n = int(input())
-M = 0
-tree = [[float('inf'),0,0,0] for _ in range(n + 1)]
-for i in range(n):
-    pivot = n // 2
-    a, b = map(int, input().split())
-    push([a,b])
-print(tree)
+import copy
+# 스타트 택시
+def bfs(start, fuel):
+    dq = [(start, 0, fuel)]
+    delta = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+    visited = [[0]*N for _ in range(N)]
+    visited[start[0]][start[1]] = 1
+    end = []
+    while dq:
+        tmp = list(dq.pop(0))
+        x, y = tmp[0]
+        cnt = tmp[1]
+        f = tmp[2]
+        if len(end) != 0 and cnt == end[-1][1]+1:
+            return end
+        elif matrix[x][y] > 1:
+            end.append(([x, y], cnt))
+        if f < 0:
+            return end
+        for dx, dy in delta:
+            nx, ny = x + dx, y + dy
+            if nx < 0 or ny < 0 or nx >= N or ny >= N:
+                continue
+            if matrix[nx][ny] != 1 and visited[nx][ny] == 0:
+                visited[nx][ny] = 1
+                dq.append(([nx, ny], cnt+1, f-1))
 
 
+def bfs2(start, fuel):
+    dq = [(start, 0, fuel)]
+    delta = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+    visited = [[0]*N for _ in range(N)]
+    visited[start[0]][start[1]] = 1
+    end = []
+    while dq:
+        tmp = list(dq.pop(0))
+        x, y = tmp[0]
+        cnt = tmp[1]
+        f = tmp[2]
+        if matrix2[x][y] == -1:
+            end.append(([x, y], cnt))
+            matrix2[x][y] = 0
+            return end
+        if f <= 0:
+            return end
+        for dx, dy in delta:
+            nx, ny = x + dx, y + dy
+            if nx < 0 or ny < 0 or nx >= N or ny >= N:
+                continue
+            if matrix2[nx][ny] != 1 and visited[nx][ny] == 0:
+                visited[nx][ny] = 1
+                dq.append(([nx, ny], cnt+1, f-1))
 
 
-print(time.time()-start)
+N, M, fuel = map(int, input().split())
+matrix = [list(map(int, input().split())) for _ in range(N)]
+matrix2 = copy.deepcopy(matrix)
+start = list(map(int, input().split()))
+start[0], start[1] = start[0] - 1, start[1] - 1
+des = []
+for i in range(M):
+    tmp = list(map(int, input().split()))
+    matrix[tmp[0]-1][tmp[1]-1] = i + 2
+    des.append(((tmp[2]-1, tmp[3]-1), (i + 2)))
+man_number = 0
+for i in range(M):
+    temp = bfs(start, fuel)
+    if not temp:
+        print(-1)
+        break
+    elif len(temp) > 1:
+        temp.sort()
+    result = temp[0]
+    fuel -= result[1]
+    start = result[0]
+    for d in des:
+        if d[1] == matrix[start[0]][start[1]]:
+            matrix2[d[0][0]][d[0][1]] = -1
+    matrix[start[0]][start[1]] = 0
+    temp = bfs2(start, fuel)
+    if not temp:
+        print(-1)
+        break
+    result = temp[0]
+    fuel -= result[1]
+    start = result[0]
+    fuel = fuel + 2*result[1]
+else:
+    print(fuel)

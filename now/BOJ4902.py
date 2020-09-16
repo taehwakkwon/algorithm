@@ -8,15 +8,12 @@ def cal(r,c,s):
     total = 0
     for idx , val in enumerate(sub_tr[:s+1]): #높이
         total += (triangle[r + idx][c + val - 1] - triangle[r+idx][c - 1])
-        cnt += 1
     return total
 
 t = 0
-cnt = 1
 while True:
     t += 1
-    n = 400
-    inputs = [n] + [1]*(n*(n+1)) #list(map(int, input().split()))  #
+    inputs = list(map(int, input().split()))
     if inputs == [0]:
         break
     line = inputs[0]
@@ -41,5 +38,3 @@ while True:
                     M = max(M,cal(i,j,k))
     print('%d. %d' %(t, M))
     print(time.time()-start)
-    print(cnt)
-    break
