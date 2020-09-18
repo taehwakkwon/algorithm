@@ -1,11 +1,10 @@
 import sys
 sys.stdin = open('input.txt')
-
-
-n = int(input())
+import sys
+n = int(sys.stdin.readline())
 ips = []
 for t in range(n):
-    tmp = list(map(int, input().split('.')))
+    tmp = list(map(int, sys.stdin.readline().rstrip().split('.')))
     p = ''
     for i in range(4):
         ip = ''
