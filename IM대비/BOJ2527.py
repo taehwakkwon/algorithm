@@ -9,22 +9,27 @@ def gen_points(square):
     return points
 
 
+
 for i in range(4):
     squares = list(map(int, input().split()))
     square_a = squares[:4]
     square_b = squares[4:]
     points_a = gen_points(square_a)
     points_b = gen_points(square_b)
-    print(set(points_a) & set(points_b))
-    res = ''
-    if len(set(points_a) & set(points_b)) == 1:
-        res = 'c'
 
+    if (len(set(points_a)&set(points_b)) == 1):
+        print('c')
+    elif square_a[2] < square_b[0] and square_a[3] < square_b[1]:
+        print('a')
+    elif (square_a[0] > square_b[2] or square_a[1] > square_b[3] or square_a[2] < square_b[0] or square_a[3] < square_b[
+        1]):
+        print('d')
+    elif (square_b[0] > square_a[2] or square_b[1] > square_a[3] or square_b[2] < square_a[0] or square_b[3] < square_a[
+        1]):
+        print('d')
 
-
-
-
-
+    else:
+        print('b')
 '''
 a
 a in b or b in a
