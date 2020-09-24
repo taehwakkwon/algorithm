@@ -12,7 +12,7 @@ for i in range(4):
 
     width = right - left
     height = top - bottom
-    
+
     if width == 0 and height == 0:
         print('c')
     elif width == 0 or height == 0:
