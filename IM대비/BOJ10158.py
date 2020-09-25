@@ -3,7 +3,7 @@ sys.stdin = open('input.txt')
 
 w, h = map(int, input().split())
 p, q = map(int, input().split())
-t = int(input())%(w*h*4)
+t = int(input())%(w*h*2)
 if ((p+t)//w)%2:
     p = w - (p + t)%w
 else:
