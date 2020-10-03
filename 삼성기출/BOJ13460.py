@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('../now/input.txt')
 from collections import deque
 def bfs():
     visited = {}

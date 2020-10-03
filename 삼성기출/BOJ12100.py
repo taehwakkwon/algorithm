@@ -1,11 +1,13 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('../now/input.txt')
 
-from collections import deque
+import sys
+sys.setrecursionlimit(10**7)
 from copy import deepcopy
-def move(d):
+def move(d,board):
     global M
     new_board = deepcopy(board)
+    #상하좌우
     if d == 0:
         for i in range(n):
             for j in range(n - 1):
@@ -88,32 +90,30 @@ def move(d):
             M = max(new_board[i])
     return new_board
 
-
-def bfs(queue, c):
-    global board
-    if c >= 5:
-        return M
-    next_queue = deque([])
-    while queue:
-        board = queue.popleft()
-        for d in range(4):
-            new_board = deepcopy(move(d))
-            # for r in new_board:
-            #     print(r)
-            # print(c)
-            # print(M)
+def dfs(v,board):
+    if v >= 5:
+        return
+    else:
+        for i in range(4):
+            new_board = move(i,board)
             if new_board not in visited:
                 visited.append(new_board)
-                next_queue.append(new_board)
-    if next_queue:
-        bfs(next_queue, c + 1)
-    else:
-        return M
+                visited_cnt.append(v)
+                dfs(v + 1, new_board)
+            else:
+                if v < visited_cnt[visited.index(new_board)]:
+                    visited_cnt.pop(visited.index(new_board))
+                    visited.remove(new_board)
+                    visited.append(new_board)
+                    visited_cnt.append(v)
+                    dfs(v + 1, new_board)
+
 
 n = int(input())
 board = [list(map(int, input().split())) for _ in range(n)]
 M = 0
-queue = deque([board])
+
 visited = [[board]]
-bfs(queue,0)
+visited_cnt = [0]
+dfs(0,board)
 print(M)
