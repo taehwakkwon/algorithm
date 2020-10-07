@@ -21,6 +21,10 @@ def check():
                 board[i][j] = 0
     return cnt
 
+
+
+
+
 wall = 3
 comb = []
 M = 0
@@ -31,6 +35,7 @@ for i in range(n):
     for j in range(m):
         if board[i][j] == 2:
             virus.add((i,j))
+
 
 numbers = [(i,j) for i in range(n) for j in range(m)]
 comb = list(combinations(numbers, 3))
