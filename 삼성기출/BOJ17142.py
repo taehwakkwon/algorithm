@@ -1,11 +1,10 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('../now/input.txt')
 
 from collections import deque
 from itertools import combinations
 def bfs(queue):
     global m
-    cnt = mm
     while queue:
         r, c = queue.popleft()
         for dr, dc in [(0,1),(1,0),(0,-1),(-1,0)]:
@@ -13,12 +12,15 @@ def bfs(queue):
                 dis[r+dr][c+dc] = dis[r][c] + 1
                 visited[r+dr][c+dc] = 1
                 queue.append((r+dr,c+dc))
-                cnt += 1
+    cnt = 0
+    for i in range(n):
+        cnt += visited[i].count(1)
+
     if cnt == clean:
         M = 0
         for i in range(n):
             for j in range(n):
-                if (i,j) not in virus:
+                if board[i][j] != 1 and (i,j) not in virus:
                     M = max(M,dis[i][j])
         m = min(m, M)
 
@@ -34,7 +36,7 @@ for i in range(n):
         if board[i][j] != 1:
             clean += 1
 comb = list(combinations(virus, mm))
-m = 100
+m = float('inf')
 for com in comb:
     visited = [[0]*n for _ in range(n)]
     dis = [[0] * n for _ in range(n)]
@@ -43,7 +45,7 @@ for com in comb:
     com = deque(com)
     bfs(com)
 
-if m == 100:
+if m == float('inf'):
     print(-1)
 else:
     print(m)
