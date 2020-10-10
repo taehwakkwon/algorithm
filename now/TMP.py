@@ -1,93 +1,43 @@
 import sys
 sys.stdin=open('input.txt')
-import time
-start = time.time()
-import sys
 
-read = sys.stdin.readline
-maxAns = -1
+from collections import defaultdict
+def aged():
+    next_trees = defaultdict(list)
+    for x, y in list(trees.keys()):
+        for i in range(len(trees[(x,y)])):
+            if board[x][y] >= trees[(x,y)][i]:
+                board[x][y] -= trees[(x,y)][i]
+                next_trees[(x,y)].append(trees[(x,y)][i] + 1)
+                if (trees[(x,y)][i]+1) % 5 == 0:
+                    for dx, dy in [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]:
+                        if 0 <= x + dx < n and 0 <= y + dy < n:
+                            next_trees[(x+dx, y+dy)] = [1] + trees.get((x+dx, y+dy), [])
 
+            else:
+                board[x][y] += (trees[(x, y)][i] // 2)
 
-def selectRegion(r, c):
-    if r > 0 and c > 0:
-        return 0
-    if r > 0 and c <= 0:
-        return 1
-    if r <= 0 and c <= 0:
-        return 2
-    if r <= 0 and c > 0:
-        return 3
-
-
-def cornerVal(n):
-    temp = []
-    m = (2 * n + 1) ** 2
-    for i in range(4):
-        temp.append(m - 2 * n * i)
-    return temp
+    for i in range(n):
+        for j in range(n):
+            board[i][j] += a[i][j]
+    return next_trees
 
 
-def cal(r, c):
-    global maxAns
+n,m,k = map(int, input().split())
+board = [[5]*n for _ in range(n)]
+a = [list(map(int, input().split())) for _ in range(n)]
 
-    case = selectRegion(r, c)
-    bigger = max(abs(r), abs(c))
-    corners = cornerVal(bigger)
+trees = defaultdict(list)
 
-    if case == 0:
-        if abs(r) == bigger:  # (3,2)
-            diff = bigger - abs(c)
-            ans = corners[0] - diff
-        else:  # (2,3)
-            diff = bigger - abs(r)
-            ans = corners[3] - (2 * bigger) + diff
+for i in range(m):
+    x,y,z = map(int, input().split())
+    trees[(x-1,y-1)].append(z)
 
-    elif case == 1:
-        if abs(r) == bigger:  # (3,-2)
-            diff = bigger - abs(c)
-            ans = corners[1] + diff
-        else:  # (2,-3)
-            diff = bigger - abs(r)
-            ans = corners[1] - diff
+for i in range(k):
+    trees = aged()
 
-    elif case == 2:
-        if abs(r) == bigger:  # (-3,-2)
-            diff = bigger - abs(c)
-            ans = corners[2] - diff
-        else:  # (-2,-3)
-            diff = bigger - abs(r)
-            ans = corners[2] + diff
+cnt = 0
+for key in trees:
+    cnt += len(trees[key])
+print(trees)
 
-    else:
-        if abs(r) == bigger:  # (-3,2)
-            diff = bigger - abs(c)
-            ans = corners[3] + diff
-        else:  # (-2,3)
-            diff = bigger - abs(r)
-            ans = corners[3] - diff
-    if ans > maxAns:
-        maxAns = ans
-    return ans
-
-
-r1, c1, r2, c2 = map(int, read().split())
-
-R = r2 - r1 + 1
-C = c2 - c1 + 1
-D = [[0 for _ in range(C)] for _ in range(R)]
-
-for i in range(R):
-    for j in range(C):
-        D[i][j] = str(cal(r1 + i, c1 + j))
-strLen = len(str(maxAns))
-
-for i in range(R):
-    for j in range(C):
-        temp = D[i][j]
-        D[i][j] = ' ' * (strLen - len(temp))
-        D[i][j] += temp
-
-for d in D:
-    for i in d:
-        print(i, end=' ')
-    print()
