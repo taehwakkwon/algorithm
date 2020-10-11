@@ -1,31 +1,27 @@
 import sys
 sys.stdin = open('input.txt')
-import time
-start = time.time()
-from collections import deque
-def bfs(v):
-    queue = deque([(0,v)])
-    while queue:
-        c, v = queue.popleft()
 
-        if v == k:
-            return c
-        #보수
-        b = bin(v)[2:]
-        for i in range(1,len(b)):
-            if b[i] == '1':
-                queue.append((c + 1, int(b[:i] + '0' + b[i+1:], base=2)))
-            else:
-                queue.append((c + 1, int(b[:i] + '1' + b[i + 1:],base=2)))
 
-        #더하기
-        queue.append((c + 1,v + 1))
+M, N = map(int, input().split())
+uni = []
+total = []
+for i in range(M):
+    li = [[b, a] for a, b in enumerate(map(int, input().split()))]
+    uni = sorted(li)
+    for x in range(M-1):
+        for y in range(x+1, M):
+            if uni[x][0] == uni[y][0]:
+                uni[x][1] = uni[y][1]
 
-        #빼기
-        if v > 0:
-            queue.append((c + 1, v - 1))
+    result = []
+    for x in range(N):
+        result.append(uni[x][1])
+    total.append(result)
 
-l = int(input(), base = 2)
-k = int(input(), base = 2)
-print(bfs(l))
-print(time.time()-start)
+cnt = 0
+for i in range(M-1):
+    for j in range(i+1,M):
+        if total[i] == total[j]:
+            cnt += 1
+
+print(cnt)
