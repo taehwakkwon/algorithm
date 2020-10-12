@@ -12,6 +12,7 @@ def check(r, c, s):
                 return False
     return True
 
+
 def solve(r,c,cnt,b_sum):
     global m
     if b_sum == 0:
@@ -37,6 +38,7 @@ def solve(r,c,cnt,b_sum):
                     for p in range(size):
                         for q in range(size):
                             board[r+p][c+q] = 1
+
 
 n = 10
 papers = [5]*6
