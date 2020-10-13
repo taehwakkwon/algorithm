@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('../now/input.txt')
 #10:25
 #궁수 3명
 #동시 공격, 거리 D 이하 가장 가까운 적(여럿이면 왼쪽)
@@ -21,20 +21,26 @@ def dfs(v,b,s):
 
 
 def bfs(queue):
-    global kill
-    # print(queue)
+    target = []
+    flag = float('inf')
     while queue:
         cnt, r, c = queue.popleft()
+        if flag < cnt:
+            break
         if cnt > d:
             continue
         if board[r][c] == 1:
-            kill += 1
-            board[r][c] = 0
-            return
+            target.append((cnt, c,r))
+            flag = min(flag,cnt)
         for dr, dc in [(0,-1),(-1,0),(0,1)]:
             nr, nc = r + dr, c + dc
             if 0 <= nr < n and 0 <= nc < m:
                 queue.append((cnt + 1, nr, nc))
+    if target:
+        cnt, c, r = min(target)
+        if (r,c) not in delete:
+            delete.append((r,c))
+
 
 
 result = []
@@ -52,6 +58,7 @@ M = 0
 for com in result:
     kill = gone = 0
     while total > (kill + gone):
+        delete = []
         for i in range(m):
             if com & 1 << i:
                 queue = deque([])
@@ -60,6 +67,9 @@ for com in result:
         # for r in board:
         #     print(r)
         # print()
+        for r,c in delete:
+            board[r][c] = 0
+            kill += 1
         for i in range(n-1,-1,-1):
             for j in range(m):
                 if board[i][j] == 1:
