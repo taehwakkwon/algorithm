@@ -26,9 +26,9 @@ for t in range(T):
     n = len(program)
 
     while idx < MAX_LOOP and pivot < n:
-        if program[pivot] == '-':
+        if program[pivot] == '-': #일때 -1 255
             memory[pointer] = (memory[pointer] - 1) % divide
-        elif program[pivot] == '+':
+        elif program[pivot] == '+':# 255 -> 256
             memory[pointer] = (memory[pointer] + 1) % divide
         elif program[pivot] == '<':
             pointer = (pointer - 1) % sm

@@ -1,39 +1,38 @@
 import sys
-sys.stdin=open('input.txt')
+sys.stdin = open('../now/input.txt')
 
-import time
-start = time.time()
-from collections import deque
 import sys
 sys.setrecursionlimit(10**7)
-move = [(0,1),(1,0), (0,-1),(-1,0)]
+from collections import deque
+move = [(0,1),(1,0),(0,-1),(-1,0)]
 def coloring(r,c):
-    colored[r][c] = color
-    for dr, dc in move:
+    for dr, dc in [(0,0)] + move:
         nr, nc = r + dr, c + dc
         if 0 <= nr < n and 0 <= nc < n and colored[nr][nc] == 0 and board[nr][nc] == 1:
             colored[nr][nc] = color
             coloring(nr,nc)
 
-def bfs(r,c):
-    queue = deque([])
-    queue.append((0,r,c))
-    visited = [[0]*n for _ in range(n)]
+def bfs(queue,cnt):
+    global m
+    next_queue = deque([])
+    if cnt >= m:
+        return
+
     while queue:
-        cnt, r, c = queue.popleft()
-        if colored[r][c] != 0 and colored[r][c] != now_color:
-            return cnt
-        if cnt - 1 >= m:
-            return float('inf')
+        r, c = queue.popleft()
+
         for dr, dc in move:
             nr, nc = r + dr, c + dc
             if 0 <= nr < n and 0 <= nc < n:
-                if colored[nr][nc] == now_color or visited[nr][nc] == 1:
+                if colored[nr][nc] == now_color:
                     continue
                 else:
-                    visited[nr][nc] = 1
-                    queue.append((cnt+1, nr, nc))
-    return float('inf')
+                    if colored[r][c] != 0:
+                        m = min(m, cnt)
+                        return
+                    next_queue.append((nr, nc))
+    if next_queue:
+        bfs(next_queue, cnt + 1)
 
 
 n = int(input())
@@ -46,14 +45,11 @@ for i in range(n):
         if board[i][j] == 1 and colored[i][j] == 0:
             color += 1
             coloring(i,j)
-
 for i in range(n):
     for j in range(n):
         if colored[i][j] != 0:
             now_color = colored[i][j]
-            m = min(m,bfs(i,j))
-print(m-1)
-
-
-
-print(time.time()-start)
+            queue = deque([])
+            queue.append((i, j))
+            bfs(queue,0)
+print(m - 1)
