@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('../now/input.txt')
 def boom(r,c,k):
     board[r][c] = 0
     for dr, dc in [(0,1),(1,0),(0,-1),(-1,0)]:

@@ -1,8 +1,7 @@
 import sys
-sys.stdin=open('input.txt')
-
-import time
-start = time.time()
+sys.stdin = open('../now/input.txt')
+#엇갈리는 경우!
+#3개 충돌할 때 => 충돌하는곳 위치를 정하기
 move = [(0,1), (0,-1),(-1,0),(1,0)]
 def go():
     global energy
@@ -40,4 +39,3 @@ for t in range(1, 1+T):
     for a in range(4004):
         go()
     print('#%d %d' %(t, energy))
-print(time.time()-start)
