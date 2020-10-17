@@ -4,40 +4,53 @@ sys.stdin=open('input.txt')
 import time
 start = time.time()
 move = [(0,1), (0,-1),(-1,0),(1,0)]
-def go():
-    global energy
-    dic = {}
-    for i in range(len(infos)-1,-1,-1):
-        x,y,direc,k = infos[i]
-        nx, ny = x + move[direc][0], y + move[direc][1]
-        if -2000 < nx < 2000 and -2000 < ny < 2000:
-            infos[i][0],infos[i][1] = nx, ny
-            dic[(nx,ny)] = dic.get((nx,ny),0) + 1
-        else:
-            infos.pop(i)
-
-    for i in range(len(infos)-1,-1,-1):
-        x,y,direc,k = infos[i]
-        if dic[(x,y)] > 1:
-            energy += k
-            infos.pop(i)
-
-
 T = int(input())
-for t in range(1, 1+T):
-    n = int(input())
-    energy = 0
-    infos = []
-    loc_infos = {}
+CNTER = 200
+for t in range(1, T+1):
+    n, m, k = map(int, input().split())
+    board = [[0]*(2*CNTER) for _ in range(2*CNTER)]
+
+    inputs = [list(map(int, input().split())) for _ in range(n)]
+    cells = []
     for i in range(n):
-        x,y,direc, k = map(int ,input().split())
-        x *= 2
-        y *= 2
-        infos.append([x,y,direc,k])
-        loc_infos[(x,y)] = 1
+        for j in range(m):
+            if inputs[i][j] != 0:
+                cells.append([False, CNTER+i,CNTER+j, inputs[i][j]])
+
+    for i in range(n):
+        for j in range(m):
+            board[CNTER+i][CNTER+j] = inputs[i][j]
+
+    for hour in range(k):
+        idx = 0
+        while idx < len(cells):
+            if cells[idx][0] == True:
+                if cells[idx][3] == 1:
+                    x, y = cells[idx][1:3]
+                    cells.pop(idx)
+                    for dx, dy in move:
+                        nx, ny = x + dx, y + dy
+                        if board[x][y] > board[nx][ny]:
+                            board[nx][ny] = board[x][y]
+                            cells.append([False,nx,ny,board[x][y]])
+                else:
+                    cells[idx][3] -= 1
+                    idx += 1
+            else:# cells[idx][0] == False:
+                #deactivated
+                if cells[idx][3] == 1:
+                    cells[idx][0] = True
+                else:
+                    cells[idx][3] -= 1
+                idx += 1
 
 
-    for a in range(4004):
-        go()
-    print('#%d %d' %(t, energy))
+        print(cells)
+        print(hour)
+        print(len(cells))
+    break
+
+
+
+
 print(time.time()-start)
