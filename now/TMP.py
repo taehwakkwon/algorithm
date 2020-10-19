@@ -3,54 +3,58 @@ sys.stdin=open('input.txt')
 
 import time
 start = time.time()
-move = [(0,1), (0,-1),(-1,0),(1,0)]
-T = int(input())
-CNTER = 200
-for t in range(1, T+1):
-    n, m, k = map(int, input().split())
-    board = [[0]*(2*CNTER) for _ in range(2*CNTER)]
+sys.setrecursionlimit(10 ** 5)
+dir = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+n, q = map(int, input().split())
+n = 2 ** n
+ice = [list(map(int, input().split())) for _ in range(n)]
 
-    inputs = [list(map(int, input().split())) for _ in range(n)]
-    cells = []
-    for i in range(n):
-        for j in range(m):
-            if inputs[i][j] != 0:
-                cells.append([False, CNTER+i,CNTER+j, inputs[i][j]])
+for L in list(map(int, input().split())):
+    # 회전
+    k = 2 ** L
+    for x in range(0, n, k):
+        for y in range(0, n, k):
+            tmp = [ice[i][y:y + k] for i in range(x, x + k)]
+            for i in range(k):
+                for j in range(k):
+                    ice[x + j][y + k - 1 - i] = tmp[i][j]
+    for rr in ice:
+        print(rr)
+    print(L)
 
-    for i in range(n):
-        for j in range(m):
-            board[CNTER+i][CNTER+j] = inputs[i][j]
+    # 인접한 얼음 카운팅
+    cnt = [[0] * n for i in range(n)]
+    for x in range(0, n):
+        for y in range(0, n):
+            for d in dir:
+                nx, ny = x + d[0], y + d[1]
+                if 0 <= nx < n and 0 <= ny < n and ice[nx][ny]:
+                    cnt[x][y] += 1
+    # 얼음 제거
+    for x in range(0, n):
+        for y in range(0, n):
+            if ice[x][y] > 0 and cnt[x][y] < 3:
+                ice[x][y] -= 1
 
-    for hour in range(k):
-        idx = 0
-        while idx < len(cells):
-            if cells[idx][0] == True:
-                if cells[idx][3] == 1:
-                    x, y = cells[idx][1:3]
-                    cells.pop(idx)
-                    for dx, dy in move:
-                        nx, ny = x + dx, y + dy
-                        if board[x][y] > board[nx][ny]:
-                            board[nx][ny] = board[x][y]
-                            cells.append([False,nx,ny,board[x][y]])
-                else:
-                    cells[idx][3] -= 1
-                    idx += 1
-            else:# cells[idx][0] == False:
-                #deactivated
-                if cells[idx][3] == 1:
-                    cells[idx][0] = True
-                else:
-                    cells[idx][3] -= 1
-                idx += 1
+# 남아있는 얼음의 합
+print(sum(sum(i) for i in ice))
 
+# (x,y)가 속한 덩어리의 크기
+def dfs(x, y):
+    ret = 1
+    ice[x][y] = 0
+    for d in dir:
+        nx, ny = x + d[0], y + d[1]
+        if 0 <= nx < n and 0 <= ny < n and ice[nx][ny]:
+            ret += dfs(nx, ny)
+    return ret
 
-        print(cells)
-        print(hour)
-        print(len(cells))
-    break
-
-
-
+# 제일 큰 덩어리
+ans = 0
+for x in range(n):
+    for y in range(n):
+        if ice[x][y] > 0:
+            ans = max(ans, dfs(x, y))
+print(ans)
 
 print(time.time()-start)
