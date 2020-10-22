@@ -1,9 +1,6 @@
-import sys
+import sys,time
 sys.stdin = open('input.txt')
-
-import time
 start = time.time()
-
 
 def dfs(r,c):
     global flag, cnt
@@ -34,5 +31,6 @@ for h in range(1,10):
                         pool[r][c] += 1
                         cnt += 1
 print(cnt)
+
 print(time.time()-start)
 #
