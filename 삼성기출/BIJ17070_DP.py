@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('../now/input.txt')
+sys.stdin = open('input.txt')
 
 import time
 start = time.time()
