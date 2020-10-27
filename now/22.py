@@ -1,27 +1,24 @@
 import sys
 sys.stdin = open('input.txt')
 
+def dot(mat_A,mat_B):
+    mat_C = [[0]*2 for _ in range(2)]
+    for i in range(2):
+        for j in range(2):
+            mat_C[i][j] = (mat_A[i][0] * mat_B[0][j] + mat_A[i][1] * mat_B[1][j])%1000000000
+    return mat_C
 
-M, N = map(int, input().split())
-uni = []
-total = []
-for i in range(M):
-    li = [[b, a] for a, b in enumerate(map(int, input().split()))]
-    uni = sorted(li)
-    for x in range(M-1):
-        for y in range(x+1, M):
-            if uni[x][0] == uni[y][0]:
-                uni[x][1] = uni[y][1]
 
-    result = []
-    for x in range(N):
-        result.append(uni[x][1])
-    total.append(result)
-
-cnt = 0
-for i in range(M-1):
-    for j in range(i+1,M):
-        if total[i] == total[j]:
-            cnt += 1
-
-print(cnt)
+n = int(input())
+print(n)
+b = bin(n)[::-1][:-2]
+A = [[1,1],[1,0]]
+res = [[1,0],[0,1]]
+for i in range(len(b)):
+    if b[i] == '0':
+        A = dot(A,A)
+    else:
+        res = dot(res, A)
+        A = dot(A,A)
+print(res)
+print(res[1][0])

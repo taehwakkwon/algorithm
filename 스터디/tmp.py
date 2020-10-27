@@ -1,39 +1,19 @@
 import sys
 sys.stdin = open('input.txt')
-move = [(0,1),(1,0),(0,-1),(-1,0)]
-import time
-start = time.time()
-sys.setrecursionlimit(10**7)
-def dfs(r,c):
-    global flag
-    for dr, dc in move:
-        nr, nc = r + dr, c + dc
-        if 0 <= nr < n and 0 <= nc < m:
-            if pool[r][c] >= pool[nr][nc] and (nr,nc) not in visited:
-                visited.add((nr,nc))
-                dfs(nr,nc)
-        else:
-            flag = False
-
-
-n, m = map(int, input().split())
-pool = [list(map(int, input())) for _ in range(n)]
-cnt = 0
-for h in range(1,10):
-    visited = set([])
-    flag = True
-    for i in range(n):
-        for j in range(m):
-            if pool[i][j] < h:
-                dfs(i,j)
-                visited.add((i, j))
-                if flag:
-                    for r, c in visited:
-                        pool[r][c] += 1
-                        cnt += 1
-                # for rr in pool:
-                #     print(rr)
-                # print()
-print(cnt)
+def f(n):
+    q = n // 36
+    r = n % 36
+    return f(q) + (chr(r+48) if 0 <= r <= 9 else chr(r+55)) if q else chr(r+48) if 0<= r <=9 else chr(r+55)
+N = int(input())
+c = [0]*36
+for i in range(N):
+    n = input()
+    l = len(n)
+    for j in range(l):
+        c[int(n[j],36)] += 36**(l-j-1)
+K = int(input())
+A = [[c[i]*(35-i), i]for i in range(36)]
+A.sort()
+print(f(sum(map(lambda i: c[A[i][1]] * (A[i][1] if i < 36-K else 35), range(36)))))
 print(time.time()-start)
 #
