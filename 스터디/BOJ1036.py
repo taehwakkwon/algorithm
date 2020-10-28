@@ -1,15 +1,19 @@
 import sys
 sys.stdin = open('input.txt')
+
+
+import sys
+input = sys.stdin.readline
+from collections import defaultdict
 numbers = list(map(str,range(10))) + list(map(chr, range(65,91)))
 n = int(input())
 cnt = 0
 words = [input().rstrip() for _ in range(n)]
 k = int(input())
-dic = {}
+dic = defaultdict(int)
 for word in words:
     for idx,letter in enumerate(word[::-1]):
-        dic[letter] = dic.get(letter,0) + (35-numbers.index(letter))*36**idx
-
+        dic[letter] += (35-numbers.index(letter))*36**idx
 dic = sorted(dic.items(), key=lambda x:x[1], reverse=True)
 
 changed = []
