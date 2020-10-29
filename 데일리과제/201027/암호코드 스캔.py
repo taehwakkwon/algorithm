@@ -1,82 +1,58 @@
 import sys
 sys.stdin = open('input.txt')
-dic = {
-    '0001101':0,
-    '0011001':1,
-    '0010011':2,
-    '0111101':3,
-    '0100011':4,
-    '0110001':5,
-    '0101111':6,
-    '0111011':7,
-    '0110111':8,
-    '0001011':9
-}
-numbers = list(map(str,range(10))) + list(map(chr,range(ord('A'),ord('A')+6)))
-def hexa_to_binary(number):
-    print(number)
-    div = len(number)//15
-    ans = ''
-    for num in number:
-        num = numbers.index(num)
-        tmp = ''
-        while num or len(tmp) < 4:
-            tmp += str(num%2)
-            num //= 2
-        ans += tmp[::-1]
-    res = ''
-    print(ans, div)
-    for i in range(0,len(ans),div):
-        res += ans[i]
-    return res
 
-def check(li):
-    deciphered_number = []
-    check = even = odd = 0
-    for idx, number in enumerate(li,start = 1):
-        if idx % 2:
-            odd += number
-        else:
-            even += number
+hex_dic = {}
+for key, value in zip(list(map(str,range(10))) + list(map(chr,range(ord('A'),ord('A')+6))), range(16)):
+    tmp = list(map(int,bin(value)[2:]))
+    hex_dic[key] = [0]*(4-len(tmp)) + tmp
+code = {(2,1,1):0, (2,2,1):1, (1,2,2):2, (4,1,1):3, (1,3,2):4,
+        (2,3,1):5, (1,1,4):6, (3,1,2):7, (2,1,3):8, (1,1,2):9}
 
-        deciphered_number.append(number)
-    even -= deciphered_number[-1]
-    check = deciphered_number[-1]
-    if (odd*3+even+check)%10 == 0:
-        return True
-    else:
-        return False
+def solve():
+    result = 0
+    for i in range(n):
+        #뒷쪽에서부터 검사
+        j = m * 4 - 1
+        while j >= 55:
+            #만약에 1을 찾았는데, 위쪽도 같이 1이면, 암호 첫번째 줄이 아님
+            #검사를 할 필요가 없음
+            pwd = []
+            if arr[i][j] and arr[i-1][j] == 0: #암호 코드의 첫번째 줄 시작
+                #암호코드 해독 시작
+                for _ in range(8):
+                    n2 = n3 = n4 = 0
+                    while arr[i][j] == 0:
+                        j -= 1
+                    while arr[i][j] == 1:
+                        n4 += 1
+                        j -= 1
+                    while arr[i][j] == 0:
+                        n3 += 1
+                        j -= 1
+                    while arr[i][j] == 1:
+                        n2 += 1
+                        j -= 1
+
+                    min_v = min(n2,n3,n4)
+                    c = (n2/min_v,n3/min_v,n4/min_v)
+                    pwd.append(code[c])
+                sum_even = sum(pwd[2::2])
+                sum_odd = sum(pwd[1::2])
+                tmp = sum_odd*3 + sum_even + pwd[0]
+                if tmp%10 == 0:
+                    result += sum(pwd)
+            j -= 1
+    return result
+
 T = int(input())
 for t in range(1, T+1):
     n, m = map(int, input().split())
-    encrypted_number = set([])
+    arr = []
     for i in range(n):
+        tmp_arr = []
         tmp = input()
-        if tmp == '0'*len(tmp):
-            continue
-        else:
-            tmp = tmp.split('0')
-            while '' in tmp:
-                tmp.remove('')
-            for tt in tmp:
-                encrypted_number.add(tt)
-    encrypted_number = list(encrypted_number)
-    print(encrypted_number)
-
-    ans = 0
-    for numb in encrypted_number:
-        print(numb)
-        tmp = hexa_to_binary(numb)
-        idx = len(tmp)-1
-        while tmp[idx] == '0':
-            idx -= 1
-        idx += 1
-        deciphered_number = []
-        start_idx = idx%7
-        for i in range(start_idx, idx,7):
-            deciphered_number.append(dic[tmp[i:i+7]])
-        if check(deciphered_number):
-            ans += sum(deciphered_number)
-    print('#%d %d' % (t, ans))
-
-#print('#%d %d' % (t, 0))
+        for j in range(m):
+            tmp_arr += hex_dic[tmp[j]]
+        arr.append(tmp_arr)
+    result = solve()
+    print('#%d %d' %(t,result))
