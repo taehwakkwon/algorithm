@@ -1,19 +1,49 @@
 import sys
 sys.stdin = open('input.txt')
-def f(n):
-    q = n // 36
-    r = n % 36
-    return f(q) + (chr(r+48) if 0 <= r <= 9 else chr(r+55)) if q else chr(r+48) if 0<= r <=9 else chr(r+55)
-N = int(input())
-c = [0]*36
-for i in range(N):
-    n = input()
-    l = len(n)
-    for j in range(l):
-        c[int(n[j],36)] += 36**(l-j-1)
-K = int(input())
-A = [[c[i]*(35-i), i]for i in range(36)]
-A.sort()
-print(f(sum(map(lambda i: c[A[i][1]] * (A[i][1] if i < 36-K else 35), range(36)))))
-print(time.time()-start)
+
+import time
+st = time.time()
+from sys import stdin
+def find(x):
+    if parent[x] == x: return x
+    else:
+        p = find(parent[x])
+        parent[x] = p
+        return p
+
+def union(x, y):
+    x, y = find(x), find(y)
+
+    if x != y:
+        parent[y] = x
+        number[x] += number[y]
+    print(number[x])
+
+for _ in range(int(stdin.readline())):
+    num = int(stdin.readline())
+    parent, number = {}, {}
+    for i in range(num):
+        a, b = stdin.readline().split()
+        if a not in parent:
+            parent[a] = a
+            number[a] = 1
+        if b not in parent:
+            parent[b] = b
+            number[b] = 1
+        union(a, b)
+print(time.time()-st)
+
+
+
 #
+# from random import choice
+# s = 'abcdefghijklmnopqrstuvwxyz'
+# n = 500
+#
+# def gen():
+#     return ''.join(choice(s) for i in range(10)).capitalize()
+#
+# print(1)
+# print(n)
+# for i in range(n):
+#     print(gen(), gen())
